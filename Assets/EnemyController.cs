@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    //referencje do dostêpnych materia³ów
+    public Material[] materials;
     //obiekt zawieraj¹cy wszystkie punkty trasy
     GameObject waypoints;
     //lista punktów trasy
@@ -12,6 +14,9 @@ public class EnemyController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //ustaw losowy materia³ dla potomka - modelu
+        transform.GetChild(0).GetComponent<MeshRenderer>().material = 
+                        materials[Random.Range(0, materials.Length)];
         //znajdŸ obiekt po jego nazwie i przypisz go do zmiennej waypoints
         waypoints = GameObject.Find("Waypoints");
         //pobierz wszystkie komponenty Transform z obiektu waypoints i przypisz je do listy points
