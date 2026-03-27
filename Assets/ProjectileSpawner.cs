@@ -9,6 +9,7 @@ public class ProjectileSpawner : MonoBehaviour
     public GameObject projectilePrefab;
     void Start()
     {
+        targets = new List<GameObject>();
         //strzelaj co sekundê
         InvokeRepeating("Shoot", 0, 1);
     }
