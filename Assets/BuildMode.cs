@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BuildMode : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class BuildMode : MonoBehaviour
     {
         //stwórz instancjê budynku, ale j¹ ukryj
         buildingInstance = Instantiate(buildingPrefab);
+        //wy³¹cz kolizjê dla tej instancji, ¿eby nie przeszkadza³a w raycastach
+        buildingInstance.GetComponent<Collider>().enabled = false;
+        //wy³¹cz skrypt ¿eby duszek nie strzela³
+        buildingInstance.GetComponentInChildren<ProjectileSpawner>().enabled = false;
+
         buildingInstance.SetActive(false);
     }
     // Update is called once per frame
@@ -21,6 +27,26 @@ public class BuildMode : MonoBehaviour
         {
             buildingInstance.SetActive(true);
             buildingInstance.transform.position = cursorPosition.Value;
+            //sprawdŸ czy jest naciœniêty lewy przycisk myszy,
+            //jeœli tak, to "postaw" budynek na tej pozycji
+            if(Mouse.current.leftButton.isPressed)
+            {
+                //sprawdŸ czy jest wolne miejsce
+                //jeœli nie ma niczego w promieniu 0.9f od pozycji kursora
+                //metr nad ziemi¹ to mo¿na postawiæ budynek
+                if (!Physics.CheckSphere(cursorPosition.Value + Vector3.up, 
+                                            0.9f))
+                {
+                    //postaw now¹ instacjê wie¿y na pozycji kursora
+                    Instantiate(buildingPrefab, 
+                                cursorPosition.Value, 
+                                Quaternion.identity);
+                    //usuñ duszka budowania
+                    buildingInstance.SetActive(false);
+                    gameObject.SetActive(false); //wy³¹cz tryb budowania po postawieniu budynku
+                }
+                
+            }
         }
         else //jeœli pozycja = null, to ukryj wizualizacjê budynku
         {

@@ -40,12 +40,26 @@ public class EnemyController : MonoBehaviour
                 points.RemoveAt(0);
             }
         }
+        else
+        {
+            //nie masz ju¿ dok¹d iœc - dotar³eœ do koñca trasy
+            //wiêc zniszcz siebie i odejmij zdrowie graczowi
+            //todo: odejmij zdrowie graczowi
+            Destroy(gameObject);
+        }
         
     }
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag != "Projectile")
+        {
+            //jeœli obiekt, z którym siê zderzy³eœ nie jest pociskiem, to nic nie rób
+            return;
+        }
         //niszczymy nabój
         Destroy(other.gameObject);
+        //dodajemy z³oto graczowi za zabicie wroga
+        GameObject.Find("LevelManager").GetComponent<LevelManager>().AddGold();
         //niszczymy wroga
         Destroy(gameObject);
     }
