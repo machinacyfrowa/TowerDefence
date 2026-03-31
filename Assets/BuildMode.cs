@@ -31,16 +31,21 @@ public class BuildMode : MonoBehaviour
             //jeœli tak, to "postaw" budynek na tej pozycji
             if(Mouse.current.leftButton.isPressed)
             {
+                
                 //sprawdŸ czy jest wolne miejsce
                 //jeœli nie ma niczego w promieniu 0.9f od pozycji kursora
                 //metr nad ziemi¹ to mo¿na postawiæ budynek
                 if (!Physics.CheckSphere(cursorPosition.Value + Vector3.up, 
                                             0.9f))
                 {
+            
+
                     //postaw now¹ instacjê wie¿y na pozycji kursora
                     Instantiate(buildingPrefab, 
                                 cursorPosition.Value, 
                                 Quaternion.identity);
+                    //zredukuj z³oto gracza o koszt budowania
+                    GameObject.Find("LevelManager").GetComponent<LevelManager>().RemoveGold(50);
                     //usuñ duszka budowania
                     buildingInstance.SetActive(false);
                     gameObject.SetActive(false); //wy³¹cz tryb budowania po postawieniu budynku

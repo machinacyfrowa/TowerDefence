@@ -34,7 +34,7 @@ public class EnemyController : MonoBehaviour
             transform.LookAt(points[0].position);
             //...i poruszaj siê w jego kierunku
             transform.Translate(Vector3.forward * Time.deltaTime * walkSpeed);
-            if (Vector3.Distance(transform.position, points[0].position) < 0.01f)
+            if (Vector3.Distance(transform.position, points[0].position) < 0.1f)
             {
                 //jeœli dotar³eœ do punktu trasy, usuñ go z listy
                 points.RemoveAt(0);
@@ -45,6 +45,7 @@ public class EnemyController : MonoBehaviour
             //nie masz ju¿ dok¹d iœc - dotar³eœ do koñca trasy
             //wiêc zniszcz siebie i odejmij zdrowie graczowi
             //todo: odejmij zdrowie graczowi
+            GameObject.Find("LevelManager").GetComponent<LevelManager>().RemoveHealth();
             Destroy(gameObject);
         }
         
